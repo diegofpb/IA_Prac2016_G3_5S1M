@@ -1,0 +1,34 @@
+{
+
+  "Talleres": {
+    "x":88,
+    "y":90,
+    "name": "Talleres",
+    "transitions": [
+      {
+        "line": "L1",
+        "cost":2,
+        "destination": "San Bernabé"
+      }
+    ]
+  },
+
+  "San Bernabé": {
+    "x": 136,
+    "y": 139,
+    "name": "San Bernabé",
+    "transitions": [
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Talleres"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Unidad Modelo"
+      }
+    ]
+  }
+
+}
