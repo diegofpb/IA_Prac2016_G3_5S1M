@@ -31,4 +31,309 @@
     ]
   }
 
+  "Unidad Modelo": {
+  	"x": 168,
+  	"y": 173,
+	"name": "Unidad Modelo",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "San Bernabé"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Aztlán"
+      }
+    ]
+  }
+
+  "Aztlán": {
+  	"x": 199,
+  	"y": 204,
+	"name": "Aztlán",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Unidad Modelo"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Penitenciaría"
+      }
+    ]
+  }
+  
+  "Penitenciaría": {
+  	"x": 226,
+  	"y": 238,
+	"name": "Penitenciaría",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Aztlán"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Alfonso Reyes"
+      }
+    ]
+  }
+  
+  "Alfonso Reyes": {
+  	"x": 226,
+  	"y": 275,
+	"name": "Alfonso Reyes",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Penitenciaría"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Mitras"
+      }
+    ]
+  }
+  
+  "Mitras": {
+  	"x": 226,
+  	"y": 307,
+	"name": "Mitras",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Alfonso Reyes"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Simón Bolívar"
+      }
+    ]
+  }
+  
+  "Simón Bolívar": {
+  	"x": 226,
+  	"y": 345,
+	"name": "Simón Bolívar",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Mitras"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Hospital"
+      }
+    ]
+  }
+  
+  "Hospital": {
+  	"x": 226,
+  	"y": 381,
+	"name": "Hospital",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Simón Bolívar"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Edison"
+      }
+    ]
+  }
+}
+
+  "Edison": {
+  	"x": 263,
+  	"y": 393,
+	"name": "Edison",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Hospital"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Central"
+      }
+    ]
+  }
+  
+   "Central": {
+  	"x": 306,
+  	"y": 393,
+	"name": "Central",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Edison"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Cuauhtémoc"
+      }
+    ]
+  }
+
+   "Cuauhtémoc": {
+  	"x": 357,
+  	"y": 393,
+	"name": "Cuauhtémoc",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Central"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Del Golfo"
+      }
+    ]
+  }  
+  
+   "Del Golfo": {
+  	"x": 410,
+  	"y": 393,
+	"name": "Del Golfo",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Cuauhtémoc"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Félix U. Gómez"
+      }
+    ]
+  } 
+  
+    "Félix U. Gómez": {
+  	"x": 457,
+  	"y": 393,
+	"name": "Félix U. Gómez",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Del Golfo"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Parque Fundidora"
+      }
+    ]
+  }  
+  
+    "Parque Fundidora": {
+  	"x": 504,
+  	"y": 393,
+	"name": "Parque Fundidora",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Félix U. Gómez"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Y Griega"
+      }
+    ]
+  } 
+  
+    "Y Griega": {
+  	"x": 548,
+  	"y": 393,
+	"name": "Y Griega",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Parque Fundidora"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Eloy Cavazos"
+      }
+    ]
+  } 
+
+    "Eloy Cavazos": {
+  	"x": 591,
+  	"y": 404,
+	"name": "Eloy Cavazos",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Y Griega"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Lerdo de Tejada"
+      }
+    ]
+  } 
+  
+    "Lerdo de Tejada": {
+  	"x": 633,
+  	"y": 404,
+	"name": "Lerdo de Tejada",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Eloy Cavazos"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Exposición"
+      }
+    ]
+  } 
+  
+    "Exposición": {
+  	"x": 674,
+  	"y": 404,
+	"name": "Exposición",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Lerdo de Tejada"
+      }
+    ]
+  }
+
+
+
+  
 }
