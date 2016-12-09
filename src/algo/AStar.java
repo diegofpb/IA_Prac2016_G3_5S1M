@@ -7,6 +7,9 @@ import java.util.*;
 
 public class AStar {
 
+    private final int LINE_CHANGE_COST = 3;
+
+
     private Map<String, Station> data;
     private Station destination;
 
@@ -49,6 +52,7 @@ public class AStar {
                 result.add(t);
                 t = t.getParent();
             }
+            result.add(t);
 
             Collections.reverse(result);
         }
@@ -77,6 +81,11 @@ public class AStar {
             t.setHeuristic((usedTransition != null ? usedTransition.getCost() : 0) + destStation.getPoint().distance(destination.getPoint()));
             t.setCost((usedTransition != null ? usedTransition.getCost() : 0) + t.getCost());
 
+            if(usedTransition != null && !t.getLine().equals(usedTransition.getLine())){
+                t.setHeuristic(t.getHeuristic() + LINE_CHANGE_COST);
+                t.setCost(t.getCost() + LINE_CHANGE_COST);
+            }
+
             if(!visitedStations.contains(destStation)) {
                 Optional<Transition> rival = availableTransitions.stream()
                         .filter(transition -> transition.getDestination().equals(destStation.getName()))
@@ -98,7 +107,7 @@ public class AStar {
     }
 
     public int getCost() {
-        return usedTransitions.get(usedTransitions.size()).getCost();
+        return usedTransitions.get(usedTransitions.size()-1).getCost();
     }
 
 }
