@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -356,28 +358,41 @@ public class WindowView {
         String stationOne,stationTwo;
 
         // Here we get the stations that are around the point given.
+
+
+
         stationOne = "StationOne";
         stationTwo = "StationTwo";
+
+
+
+        distance = Math.sqrt((x1-x2)(x1-x2) + (y1-y2)(y1-y2));
+
 
         for (int i = 0; i < fromStation.getItemCount() ; i++) {
 
             Object currentStationObject = fromStation.getItemAt(i);
             String selectedStation = fromStation.getSelectedItem().toString();
-            
-
-        }
 
 
 
-        if (fromStation.getSelectedItem() == NOT_SELECTABLE_OPTION){
 
-        }else{
 
         }
 
     }
 
     public static void main(String[] args) {
+
+        URL url = WindowView.class.getResource("stations.json");
+        File file = new File(url.getPath());
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, Station>>(){}.getType();
+        Map<String, Station> stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
+
+
+
         javax.swing.SwingUtilities.invokeLater(() -> {
             try {
                 initializeFrame();
