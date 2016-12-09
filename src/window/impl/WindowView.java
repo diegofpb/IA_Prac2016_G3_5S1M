@@ -3,7 +3,6 @@ package window.impl;
 import algo.AStar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.sun.xml.internal.ws.api.databinding.MappingInfo;
 import models.Station;
 import models.Transition;
 
@@ -14,20 +13,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
 
 
 public class WindowView {
 
     private static JLabel metroLabel;
     private static java.util.List<String> stationsList;
+    private static java.util.List<Transition> transitions;
     private static JComboBox<String> fromStation, toStation;
     private static final String NOT_SELECTABLE_OPTION = "Seleccione una estación";
     private static Map<String, Station> stations;
+    private static JPanel itineraryPanel;
+    private static JSpinner timeSpinner;
+
 
 
     private static void initializeFrame() throws IOException {
@@ -89,8 +93,6 @@ public class WindowView {
         JLayeredPane rightPanel = new JLayeredPane();
         rightPanel.setBackground(Color.white);
         rightPanel.setPreferredSize(new Dimension(700,650));
-
-
 
         ImageIcon metroMap = new ImageIcon(ImageIO.read( WindowView.class.getResourceAsStream( "resources/map.png" ) ) );
 
@@ -164,7 +166,7 @@ public class WindowView {
         hourLabel.setPreferredSize(new Dimension(250,15));
         hourLabel.setForeground(Color.WHITE);
 
-        JSpinner timeSpinner = new JSpinner( new SpinnerDateModel() );
+        timeSpinner = new JSpinner( new SpinnerDateModel() );
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(timeSpinner, "HH:mm");
         timeSpinner.setEditor(timeEditor);
         timeSpinner.setValue(new Date()); // will only show the current time
@@ -172,7 +174,11 @@ public class WindowView {
 
         JButton searchRoute = new JButton(new AbstractAction("Buscar Itinerario") {
             public void actionPerformed(ActionEvent e) {
-                newItinerary((String) fromStation.getSelectedItem(), (String) toStation.getSelectedItem());
+                try {
+                    newItinerary((String) fromStation.getSelectedItem(), (String) toStation.getSelectedItem());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         searchRoute.setPreferredSize(new Dimension(235,25));
@@ -193,19 +199,9 @@ public class WindowView {
 
 
         // ITINERARY PANEL
-        JPanel itineraryPanel = new JPanel();
+        itineraryPanel = new JPanel();
         itineraryPanel.setPreferredSize(new Dimension(250,320));
         itineraryPanel.setBackground(Color.WHITE);
-
-        JLabel suggestedLabel = new JLabel("Ruta sugerida:");
-        suggestedLabel.setPreferredSize(new Dimension(250,20));
-        suggestedLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-        Font boldFont = new Font(suggestedLabel.getFont().getFontName(), Font.BOLD, suggestedLabel.getFont().getSize());
-        suggestedLabel.setFont(boldFont);
-
-        itineraryPanel.add(suggestedLabel);
-        itineraryPanel.add(createResult(27,"San Genaro de Rodolfo"));
 
 
         leftPanel.add(searchPanel,BorderLayout.NORTH);
@@ -222,7 +218,7 @@ public class WindowView {
 
     }
 
-    private static JPanel createResult(int myMinutes, String stop) throws IOException {
+    private static JPanel createResult(int myMinutes, String fromStop, List<String> linesList, int stops) throws IOException {
 
         JPanel resultPanel = new JPanel(new BorderLayout());
         resultPanel.setPreferredSize(new Dimension(240,80));
@@ -265,22 +261,31 @@ public class WindowView {
         JPanel lines = new JPanel();
         lines.setBackground(Color.WHITE);
 
-        lines.add(createLineIcon(1));
-        lines.add(new JLabel(">"));
-        lines.add(createLineIcon(2));
-        lines.add(new JLabel(">"));
-        lines.add(createLineIcon(3));
 
 
+        linesList.forEach(item->{
+            try {
+                lines.add(createLineIcon(item));
+                lines.add(new JLabel(">"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         infoResume.add(lines,BorderLayout.NORTH);
-        JLabel stopName = new JLabel("Salida desde "+stop);
+        JLabel stopName = new JLabel("Salida desde "+fromStop);
         infoResume.add(stopName,BorderLayout.CENTER);
+
+
+        String startHour = new SimpleDateFormat("HH:mm").format(timeSpinner.getValue());
+
+        String endHour = new SimpleDateFormat("HH:mm").format(timeSpinner.getValue());
+
 
         JPanel detailedInfo = new JPanel(new BorderLayout());
         detailedInfo.setBackground(Color.WHITE);
-        detailedInfo.add(new JLabel("12:17 - 12:44"),BorderLayout.NORTH);
-        detailedInfo.add(new JLabel("7 paradas"),BorderLayout.SOUTH);
+        detailedInfo.add(new JLabel(startHour+" - "+endHour),BorderLayout.NORTH);
+        detailedInfo.add(new JLabel(stops+" paradas"),BorderLayout.SOUTH);
 
         infoResume.add(detailedInfo,BorderLayout.SOUTH);
 
@@ -291,7 +296,7 @@ public class WindowView {
         return resultPanel;
     }
 
-    private static JPanel createLineIcon(int line) throws IOException {
+    private static JPanel createLineIcon(String line) throws IOException {
 
         JPanel linePanel = new JPanel(new BorderLayout());
         linePanel.setPreferredSize(new Dimension(40,25));
@@ -302,7 +307,7 @@ public class WindowView {
 
         JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.setBackground(Color.WHITE);
-        JLabel lineLabel = new JLabel("L"+line);
+        JLabel lineLabel = new JLabel(line);
 
         ImageIcon imageIcon = new ImageIcon(ImageIO.read( WindowView.class.getResourceAsStream( "resources/subwayBlackIcon.png" ) ) );
         Image image = imageIcon.getImage(); // transform it
@@ -316,15 +321,15 @@ public class WindowView {
         infoPanel.add(iconLabel,BorderLayout.WEST);
 
         switch (line){
-            case 1:
+            case "L1":
                 colorPanel.setBackground(new Color(255, 208, 8));
                 linePanel.setBorder(BorderFactory.createLineBorder(new Color(255, 208, 8)));
                 break;
-            case 2:
+            case "L2":
                 colorPanel.setBackground(new Color(79, 139, 38));
                 linePanel.setBorder(BorderFactory.createLineBorder(new Color(79, 139, 38)));
                 break;
-            case 3:
+            case "L3":
                 colorPanel.setBackground(new Color(255, 60, 190));
                 linePanel.setBorder(BorderFactory.createLineBorder(new Color(255, 60, 190)));
                 break;
@@ -338,14 +343,35 @@ public class WindowView {
 
     }
 
-    private static void newItinerary (String from, String to){
+    private static void newItinerary (String from, String to) throws IOException {
 
-        if (from!=NOT_SELECTABLE_OPTION && to!=NOT_SELECTABLE_OPTION){
-            //AStar a = new AStar(stations, from, to);
-            //a.solve();
-            JOptionPane.showMessageDialog(null, "Se hace calculo desde "+from+" a "+to, "Calculo" ,JOptionPane.INFORMATION_MESSAGE);
+        if ((!Objects.equals(from, NOT_SELECTABLE_OPTION) && !Objects.equals(to, NOT_SELECTABLE_OPTION) &&!Objects.equals(from, to))){
+
+            itineraryPanel.removeAll();
+            AStar a = new AStar(stations, from, to);
+            a.solve();
+
+            JLabel suggestedLabel = new JLabel("Ruta sugerida:");
+            suggestedLabel.setPreferredSize(new Dimension(250,20));
+            suggestedLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            Font boldFont = new Font(suggestedLabel.getFont().getFontName(), Font.BOLD, suggestedLabel.getFont().getSize());
+            suggestedLabel.setFont(boldFont);
+
+            java.util.List<String> lineList = new java.util.ArrayList<>();
+
+            a.getTransitions().forEach(item->{
+                if (!lineList.contains(item.getLine().toString())){
+                    lineList.add(item.getLine().toString());
+                }
+            });
+
+
+            itineraryPanel.add(suggestedLabel);
+            itineraryPanel.add(createResult(a.getCost(),from,lineList,a.getTransitions().size()));
+            itineraryPanel.updateUI();
+
         }else{
-            String infoMessage = "Una de las paradas no ha sido seleccionada.";
+            String infoMessage = "Una de las paradas no ha sido seleccionada o el inicio y el destino son el mismo.";
             JOptionPane.showMessageDialog(null, infoMessage, "Error" ,JOptionPane.ERROR_MESSAGE);
         }
     }
