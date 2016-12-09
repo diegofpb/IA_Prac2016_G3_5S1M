@@ -1,0 +1,687 @@
+{
+
+  "Talleres": {
+    "x":88,
+    "y":90,
+    "name": "Talleres",
+    "transitions": [
+      {
+        "line": "L1",
+        "cost":2,
+        "destination": "San Bernabé"
+      }
+    ]
+  },
+
+  "San Bernabé": {
+    "x": 136,
+    "y": 139,
+    "name": "San Bernabé",
+    "transitions": [
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Talleres"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Unidad Modelo"
+      }
+    ]
+  },
+
+  "Unidad Modelo": {
+  	"x": 168,
+  	"y": 173,
+	"name": "Unidad Modelo",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "San Bernabé"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Aztlán"
+      }
+    ]
+  },
+
+  "Aztlán": {
+  	"x": 199,
+  	"y": 204,
+	"name": "Aztlán",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Unidad Modelo"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Penitenciaría"
+      }
+    ]
+  },
+  
+  "Penitenciaría": {
+  	"x": 226,
+  	"y": 238,
+	"name": "Penitenciaría",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Aztlán"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Alfonso Reyes"
+      }
+    ]
+  },
+  
+  "Alfonso Reyes": {
+  	"x": 226,
+  	"y": 275,
+	"name": "Alfonso Reyes",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Penitenciaría"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Mitras"
+      }
+    ]
+  },
+  
+  "Mitras": {
+  	"x": 226,
+  	"y": 307,
+	"name": "Mitras",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Alfonso Reyes"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Simón Bolívar"
+      }
+    ]
+  },
+  
+  "Simón Bolívar": {
+  	"x": 226,
+  	"y": 345,
+	"name": "Simón Bolívar",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Mitras"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Hospital"
+      }
+    ]
+  },
+  
+  "Hospital": {
+  	"x": 226,
+  	"y": 381,
+	"name": "Hospital",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Simón Bolívar"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Edison"
+      }
+    ]
+  },
+
+  "Edison": {
+  	"x": 263,
+  	"y": 393,
+	"name": "Edison",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Hospital"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Central"
+      }
+    ]
+  },
+  
+   "Central": {
+  	"x": 306,
+  	"y": 393,
+	"name": "Central",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Edison"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Cuauhtémoc"
+      }
+    ]
+  },
+
+   "Cuauhtémoc": {
+  	"x": 357,
+  	"y": 393,
+	"name": "Cuauhtémoc",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Central"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Del Golfo"
+      },
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "General Anaya"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Alameda"
+      }
+    ]
+  },
+  
+   "Del Golfo": {
+  	"x": 410,
+  	"y": 393,
+	"name": "Del Golfo",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 1,
+        "destination": "Cuauhtémoc"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Félix U. Gómez"
+      }
+    ]
+  },
+  
+    "Félix U. Gómez": {
+  	"x": 457,
+  	"y": 393,
+	"name": "Félix U. Gómez",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Del Golfo"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Parque Fundidora"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Adolfo Prieto"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Conchelo"
+      }
+    ]
+  },
+  
+    "Parque Fundidora": {
+  	"x": 504,
+  	"y": 393,
+	"name": "Parque Fundidora",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Félix U. Gómez"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Y Griega"
+      }
+    ]
+  },
+  
+    "Y Griega": {
+  	"x": 548,
+  	"y": 393,
+	"name": "Y Griega",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Parque Fundidora"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Eloy Cavazos"
+      }
+    ]
+  },
+
+    "Eloy Cavazos": {
+  	"x": 591,
+  	"y": 404,
+	"name": "Eloy Cavazos",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Y Griega"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Lerdo de Tejada"
+      }
+    ]
+  },
+  
+    "Lerdo de Tejada": {
+  	"x": 633,
+  	"y": 404,
+	"name": "Lerdo de Tejada",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Eloy Cavazos"
+      },
+      {
+        "line": "L1",
+        "cost": 2,
+        "destination": "Exposición"
+      }
+    ]
+  },
+  
+    "Exposición": {
+  	"x": 674,
+  	"y": 404,
+	"name": "Exposición",
+	"transitions": [
+      {
+        "line": "L1",
+        "cost": 3,
+        "destination": "Lerdo de Tejada"
+      }
+    ]
+  },
+  
+    "Sendero": {
+  	"x": 374,
+  	"y": 52,
+	"name": "Sendero",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 1,
+        "destination": "Santiago Tapia"
+      }
+    ]
+  },
+  
+    "Santiago Tapia": {
+  	"x": 374,
+  	"y": 91,
+	"name": "Santiago Tapia",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Sendero"
+      },
+      {
+        "line": "L2",
+        "cost": 1,
+        "destination": "San Nicolás"
+      }
+    ]
+  }, 
+  
+    "San Nicolás": {
+  	"x": 374,
+  	"y": 128,
+	"name": "San Nicolás",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Santiago Tapia"
+      },
+      {
+        "line": "L2",
+        "cost": 1,
+        "destination": "Anáhuao"
+      }
+    ]
+  },
+ 
+    "Anáhuao": {
+  	"x": 374,
+  	"y": 167,
+	"name": "Anáhuao",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "San Nicolás"
+      },
+      {
+        "line": "L2",
+        "cost": 1,
+        "destination": "Universidad"
+      }
+    ]
+  }, 
+  
+    "Universidad": {
+  	"x": 374,
+  	"y": 228,
+	"name": "Universidad",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Anáhuao"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Niños heroes"
+      }
+    ]
+  }, 
+  
+    "Niños heroes": {
+  	"x": 374,
+  	"y": 260,
+	"name": "Niños heroes",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Universidad"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Regina"
+      }
+    ]
+  },
+  
+    "Regina": {
+  	"x": 357,
+  	"y": 297,
+	"name": "Regina",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Niños heroes"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "General Anaya"
+      }
+    ]
+  },
+  
+    "General Anaya": {
+  	"x": 357,
+  	"y": 337,
+	"name": "General Anaya",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Regina"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Cuauhtémoc"
+      }
+    ]
+  },
+ 
+    "Alameda": {
+  	"x": 357,
+  	"y": 461,
+	"name": "Alameda",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 5,
+        "destination": "Cuauhtémoc"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Fundadores"
+      }
+    ]
+  },
+ 
+    "Fundadores": {
+  	"x": 357,
+  	"y": 507,
+	"name": "Fundadores",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Alameda"
+      },
+      {
+        "line": "L2",
+        "cost": 3,
+        "destination": "Padre Mier"
+      }
+    ]
+  }, 
+  
+    "Padre Mier": {
+  	"x": 377,
+  	"y": 533,
+	"name": "Padre Mier",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Fundadores"
+      },
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "General I. Zaragoza"
+      }
+    ]
+  },
+  
+    "General I. Zaragoza": {
+  	"x": 414,
+  	"y": 533,
+	"name": "General I. Zaragoza",
+	"transitions": [
+      {
+        "line": "L2",
+        "cost": 2,
+        "destination": "Padre Mier"
+      },
+      {
+        "line": "L3",
+        "cost": 4,
+        "destination": "Santa Lucía"
+      }
+    ]
+  },
+  
+    "Santa Lucía": {
+  	"x": 455,
+  	"y": 511,
+	"name": "Santa Lucía",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 4,
+        "destination": "General I. Zaragoza"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Adolfo Prieto"
+      }
+    ]
+  },
+  
+    "Adolfo Prieto": {
+  	"x": 455,
+  	"y": 455,
+	"name": "Adolfo Prieto",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Santa Lucía"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Félix U. Gómez"
+      }
+    ]
+  },  
+  
+    "Conchelo": {
+  	"x": 455,
+  	"y": 338,
+	"name": "Conchelo",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Félix U. Gómez"
+      },
+      {
+        "line": "L3",
+        "cost": 3,
+        "destination": "Violeta"
+      }
+    ]
+  }, 
+  
+    "Violeta": {
+  	"x": 468,
+  	"y": 289,
+	"name": "Violeta",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 3,
+        "destination": "Conchelo"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Ruiz Cortines"
+      }
+    ]
+  },   
+  
+    "Ruiz Cortines": {
+  	"x": 503,
+  	"y": 254,
+	"name": "Ruiz Cortines",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Violeta"
+      },
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Los Ángeles"
+      }
+    ]
+  },   
+  
+    "Los Ángeles": {
+  	"x": 533,
+  	"y": 220,
+	"name": "Los Ángeles",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 2,
+        "destination": "Ruiz Cortines"
+      },
+      {
+        "line": "L3",
+        "cost": 3,
+        "destination": "Hospital Metropolitano"
+      }
+    ]
+  },  
+  
+    "Hospital Metropolitano": {
+  	"x": 533,
+  	"y": 220,
+	"name": "Hospital Metropolitano",
+	"transitions": [
+      {
+        "line": "L3",
+        "cost": 3,
+        "destination": "Los Ángeles"
+      }    
+    ]
+  }
+   
+}
