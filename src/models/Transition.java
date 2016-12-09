@@ -5,6 +5,17 @@ public class Transition {
     private Line line;
     private int cost;
     private String destination;
+    private Double heuristic;
+
+    private Transition parent;
+
+    public Transition getParent() {
+        return parent;
+    }
+
+    public void setParent(Transition parent) {
+        this.parent = parent;
+    }
 
     public Line getLine() {
         return line;
@@ -28,5 +39,13 @@ public class Transition {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public Double getHeuristic() {
+        return heuristic;
+    }
+
+    public void setHeuristic(Double heuristic) {
+        this.heuristic = heuristic;
     }
 }
