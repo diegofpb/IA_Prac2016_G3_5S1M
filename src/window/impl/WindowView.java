@@ -1,5 +1,6 @@
 package window.impl;
 
+import algo.AStar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sun.xml.internal.ws.api.databinding.MappingInfo;
@@ -24,7 +25,7 @@ public class WindowView {
 
     private static JLabel metroLabel;
     private static java.util.List<String> stationsList;
-    private static JComboBox<String> fromStation,toStation;
+    private static JComboBox<String> fromStation, toStation;
     private static final String NOT_SELECTABLE_OPTION = "Seleccione una estación";
     private static Map<String, Station> stations;
 
@@ -169,7 +170,11 @@ public class WindowView {
         timeSpinner.setValue(new Date()); // will only show the current time
         timeSpinner.setPreferredSize(new Dimension(235,20));
 
-        JButton searchRoute = new JButton("Buscar itinerario");
+        JButton searchRoute = new JButton(new AbstractAction("Buscar Itinerario") {
+            public void actionPerformed(ActionEvent e) {
+                newItinerary((String) fromStation.getSelectedItem(), (String) toStation.getSelectedItem());
+            }
+        });
         searchRoute.setPreferredSize(new Dimension(235,25));
 
 
@@ -333,23 +338,17 @@ public class WindowView {
 
     }
 
-    /*private static void newItinerary (String from, String to){
+    private static void newItinerary (String from, String to){
 
-        Integer minutes;
-        ArrayList<Transition> transitions = new ArrayList<Transition>();
-
-        // Here is a List of Transitions.
-        for (int i=0;i<=transitions.size();i++){
-            minutes =~ transitions.get(i).minutes;
-            minutes =~ transitions.get(i).minutes;
-
-            // Verify Lines and add to New List.
-
+        if (from!=NOT_SELECTABLE_OPTION && to!=NOT_SELECTABLE_OPTION){
+            //AStar a = new AStar(stations, from, to);
+            //a.solve();
+            JOptionPane.showMessageDialog(null, "Se hace calculo desde "+from+" a "+to, "Calculo" ,JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            String infoMessage = "Una de las paradas no ha sido seleccionada.";
+            JOptionPane.showMessageDialog(null, infoMessage, "Error" ,JOptionPane.ERROR_MESSAGE);
         }
-
-
-
-    }*/
+    }
 
     private static void getStopFromMap (double x, double y){
 
@@ -357,15 +356,7 @@ public class WindowView {
         String selectedStation="";
 
         for(Station station : stations.values()) {
-            System.out.print("Punto seleccionado "+x+" , "+y+"\n");
-
-
-            Double dis = Math.sqrt((station.getPoint().getX()-x)*(station.getPoint().getX()-x)
-                    + (station.getPoint().getY()-y)*(station.getPoint().getY()-y));
-
             Double dis2 = station.getPoint().distance(x,y);
-
-            System.out.print("dis "+dis2+"\n");
 
             if (dis2<distance){
                 distance=dis2;
@@ -374,10 +365,8 @@ public class WindowView {
         }
 
         if (fromStation.getSelectedItem()==NOT_SELECTABLE_OPTION){
-            System.out.print("La primera mas cercana es "+selectedStation+"\n");
             fromStation.setSelectedItem(selectedStation);
         }else{
-            System.out.print("La segunda mas cercana es "+selectedStation+"\n");
             toStation.setSelectedItem(selectedStation);
         }
 
