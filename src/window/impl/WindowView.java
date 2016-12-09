@@ -1,5 +1,10 @@
 package window.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.sun.xml.internal.ws.api.databinding.MappingInfo;
+import models.Station;
+import models.Transition;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,29 +12,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 
 public class WindowView {
 
     private static JLabel metroLabel;
-    private static java.util.List<String> stationsList = new ArrayList<>();
+    private static java.util.List<String> stationsList;
     private static JComboBox<String> fromStation,toStation;
     private static final String NOT_SELECTABLE_OPTION = "Seleccione una estación";
+    private static Map<String, Station> stations;
 
 
     private static void initializeFrame() throws IOException {
 
         JFrame frame = new JFrame();
         Dimension windowDimensions = new Dimension(950, 650);
-
-        stationsList.add(NOT_SELECTABLE_OPTION);
-        stationsList.add("Estación 1");
-        stationsList.add("Estación 2");
 
         // Set graphics settings, like size and position.
         frame.setSize(windowDimensions);
@@ -99,7 +102,7 @@ public class WindowView {
         metroLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                getStopFromMap(e);
+                getStopFromMap(e.getX(),e.getY());
             }
         });
 
@@ -330,11 +333,7 @@ public class WindowView {
 
     }
 
-    private static void setStationsList(java.util.List<String> list){
-        stationsList = list;
-    }
-
-    private static void newItinerary (String from, String to){
+    /*private static void newItinerary (String from, String to){
 
         Integer minutes;
         ArrayList<Transition> transitions = new ArrayList<Transition>();
@@ -350,46 +349,52 @@ public class WindowView {
 
 
 
-    }
+    }*/
 
-    private static void getStopFromMap (MouseEvent e){
+    private static void getStopFromMap (double x, double y){
 
-        System.out.println(e.getX()+" , "+e.getY());
-        String stationOne,stationTwo;
+        double distance = 1000;
+        String selectedStation="";
 
-        // Here we get the stations that are around the point given.
-
-
-
-        stationOne = "StationOne";
-        stationTwo = "StationTwo";
+        for(Station station : stations.values()) {
+            System.out.print("Punto seleccionado "+x+" , "+y+"\n");
 
 
+            Double dis = Math.sqrt((station.getPoint().getX()-x)*(station.getPoint().getX()-x)
+                    + (station.getPoint().getY()-y)*(station.getPoint().getY()-y));
 
-        distance = Math.sqrt((x1-x2)(x1-x2) + (y1-y2)(y1-y2));
+            Double dis2 = station.getPoint().distance(x,y);
 
+            System.out.print("dis "+dis2+"\n");
 
-        for (int i = 0; i < fromStation.getItemCount() ; i++) {
+            if (dis2<distance){
+                distance=dis2;
+                selectedStation=station.getName();
+            }
+        }
 
-            Object currentStationObject = fromStation.getItemAt(i);
-            String selectedStation = fromStation.getSelectedItem().toString();
-
-
-
-
-
+        if (fromStation.getSelectedItem()==NOT_SELECTABLE_OPTION){
+            System.out.print("La primera mas cercana es "+selectedStation+"\n");
+            fromStation.setSelectedItem(selectedStation);
+        }else{
+            System.out.print("La segunda mas cercana es "+selectedStation+"\n");
+            toStation.setSelectedItem(selectedStation);
         }
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
-        URL url = WindowView.class.getResource("stations.json");
+        URL url = WindowView.class.getClassLoader().getResource("stations.json");
         File file = new File(url.getPath());
 
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, Station>>(){}.getType();
-        Map<String, Station> stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
+        stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
+
+
+        stationsList = new ArrayList<>(stations.keySet());
+        stationsList.add(0,NOT_SELECTABLE_OPTION);
 
 
 
