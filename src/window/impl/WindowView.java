@@ -13,9 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -23,9 +23,7 @@ import java.util.List;
 
 public class WindowView {
 
-    private static JLabel metroLabel;
     private static java.util.List<String> stationsList;
-    private static java.util.List<Transition> transitions;
     private static JComboBox<String> fromStation, toStation;
     private static final String NOT_SELECTABLE_OPTION = "Seleccione una estación";
     private static Map<String, Station> stations;
@@ -63,7 +61,7 @@ public class WindowView {
         JMenuItem aboutUsItem = new JMenuItem(new AbstractAction("Acerca de...") {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "Acerca de Metro Monterrey\n\nCreado por @Frildoren, @Garri23_23 & @diegofpb\ny programado con ❤ para Inteligencia Artificial [ETSIINF UPM]\nAño 2016",
+                        "Acerca de Metro Monterrey\n\nCreado por @Frildoren, @MrGarri, @senar052 & @diegofpb\ny programado con ❤ para Inteligencia Artificial [ETSIINF UPM]\nAño 2016",
                         "Acerca de...",
                         JOptionPane.INFORMATION_MESSAGE
                 );
@@ -100,7 +98,7 @@ public class WindowView {
         Image newimg2 = imageMap.getScaledInstance(700, 520,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         metroMap = new ImageIcon(newimg2);  // transform it back
 
-        metroLabel = new JLabel("", metroMap, JLabel.CENTER);
+        JLabel metroLabel = new JLabel("", metroMap, JLabel.CENTER);
         metroLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         metroLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -123,7 +121,7 @@ public class WindowView {
 
         // Search Panel
         JPanel searchPanel = new JPanel();
-        searchPanel.setPreferredSize(new Dimension(250,280));
+        searchPanel.setPreferredSize(new Dimension(250,295));
         searchPanel.setBackground(new Color(41, 42, 48));
 
         JPanel spacePanel1 = new JPanel();
@@ -183,6 +181,17 @@ public class WindowView {
         });
         searchRoute.setPreferredSize(new Dimension(235,25));
 
+        JButton clearRoute = new JButton(new AbstractAction("Reiniciar Búsqueda") {
+            public void actionPerformed(ActionEvent e) {
+                itineraryPanel.removeAll();
+                itineraryPanel.updateUI();
+                fromStation.setSelectedItem(NOT_SELECTABLE_OPTION);
+                toStation.setSelectedItem(NOT_SELECTABLE_OPTION);
+            }
+        });
+        clearRoute.setPreferredSize(new Dimension(235,25));
+
+
 
         searchPanel.add(iconLabel);
         searchPanel.add(spacePanel1);
@@ -196,11 +205,11 @@ public class WindowView {
         searchPanel.add(timeSpinner);
         searchPanel.add(spacePanel4);
         searchPanel.add(searchRoute);
-
+        searchPanel.add(clearRoute);
 
         // ITINERARY PANEL
         itineraryPanel = new JPanel();
-        itineraryPanel.setPreferredSize(new Dimension(250,320));
+        itineraryPanel.setPreferredSize(new Dimension(250,310));
         itineraryPanel.setBackground(Color.WHITE);
 
 
@@ -280,11 +289,22 @@ public class WindowView {
         String startHour = new SimpleDateFormat("HH:mm").format(timeSpinner.getValue());
 
         String endHour = new SimpleDateFormat("HH:mm").format(timeSpinner.getValue());
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d = null;
+        try {
+            d = df.parse(endHour);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, myMinutes);
+        String newTime = df.format(cal.getTime());
 
 
         JPanel detailedInfo = new JPanel(new BorderLayout());
         detailedInfo.setBackground(Color.WHITE);
-        detailedInfo.add(new JLabel(startHour+" - "+endHour),BorderLayout.NORTH);
+        detailedInfo.add(new JLabel(startHour+" - "+newTime),BorderLayout.NORTH);
         detailedInfo.add(new JLabel(stops+" paradas"),BorderLayout.SOUTH);
 
         infoResume.add(detailedInfo,BorderLayout.SOUTH);
@@ -348,7 +368,10 @@ public class WindowView {
         if ((!Objects.equals(from, NOT_SELECTABLE_OPTION) && !Objects.equals(to, NOT_SELECTABLE_OPTION) &&!Objects.equals(from, to))){
 
             itineraryPanel.removeAll();
-            AStar a = new AStar(stations, from, to);
+            Map<String, Station> copyOfMap;
+            copyOfMap = stations;
+
+            AStar a = new AStar(copyOfMap, from, to);
             a.solve();
 
             JLabel suggestedLabel = new JLabel("Ruta sugerida:");
@@ -366,8 +389,40 @@ public class WindowView {
             });
 
 
+            java.util.List<Transition> transitionList;
+            transitionList = a.getTransitions();
+
+            DefaultListModel listModel = new DefaultListModel();
+            JList list = new JList(listModel);
+            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            list.setLayoutOrientation(JList.VERTICAL);
+            list.setVisibleRowCount(-1);
+
+            listModel.addElement("Salida desde "+from);
+            for (int i = 0; i < transitionList.size();i++){
+                if (i != transitionList.size()-1){
+                    listModel.addElement(transitionList.get(i).getDestination()+" - ("+transitionList.get(i).getLine()+")");
+                }else{
+                    listModel.addElement("LLegada a destino " + transitionList.get(i).getDestination() + " ("+transitionList.get(i).getLine() + ")");
+                }
+
+            }
+
+
+            JScrollPane listScroller = new JScrollPane(list);
+            listScroller.setPreferredSize(new Dimension(240, 150));
+
+
+            JLabel itinerayLabel = new JLabel("Itinerario sugerido:");
+            itinerayLabel.setPreferredSize(new Dimension(275,20));
+            itinerayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            itinerayLabel.setFont(boldFont);
+
+
             itineraryPanel.add(suggestedLabel);
             itineraryPanel.add(createResult(a.getCost(),from,lineList,a.getTransitions().size()));
+            itineraryPanel.add(itinerayLabel);
+            itineraryPanel.add(listScroller);
             itineraryPanel.updateUI();
 
         }else{
