@@ -398,13 +398,21 @@ public class WindowView {
             list.setLayoutOrientation(JList.VERTICAL);
             list.setVisibleRowCount(-1);
 
-            listModel.addElement("Salida desde "+from);
+            listModel.addElement("Salida desde "+from+" ["+transitionList.get(0).getLine()+"]");
+            String actualLine = transitionList.get(0).getLine().toString();;
+
             for (int i = 0; i < transitionList.size();i++){
                 if (i != transitionList.size()-1){
-                    listModel.addElement(transitionList.get(i).getDestination()+" - ("+transitionList.get(i).getLine()+")");
+                    if (actualLine != transitionList.get(i).getLine().toString()){
+                        listModel.addElement("## Transbordo desde "+actualLine+" a " + transitionList.get(i).getLine().toString()+" ##");
+                    }
+
+                    listModel.addElement(transitionList.get(i).getDestination()+" ["+transitionList.get(i).getLine()+"]");
                 }else{
-                    listModel.addElement("LLegada a destino " + transitionList.get(i).getDestination() + " ("+transitionList.get(i).getLine() + ")");
+                    listModel.addElement("LLegada a destino " + transitionList.get(i).getDestination() + " ["+transitionList.get(i).getLine() + "]");
                 }
+
+                actualLine = transitionList.get(i).getLine().toString();
 
             }
 
