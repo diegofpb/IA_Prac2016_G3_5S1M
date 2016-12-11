@@ -396,15 +396,15 @@
       {
         "line": "L2",
         "cost": 1,
-        "destination": "Anáhuao"
+        "destination": "Anáhuac"
       }
     ]
   },
  
-    "Anáhuao": {
+    "Anáhuac": {
   	"x": 374,
   	"y": 167,
-	"name": "Anáhuao",
+	"name": "Anáhuac",
 	"transitions": [
       {
         "line": "L2",
@@ -427,7 +427,7 @@
       {
         "line": "L2",
         "cost": 2,
-        "destination": "Anáhuao"
+        "destination": "Anáhuac"
       },
       {
         "line": "L2",
