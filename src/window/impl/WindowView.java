@@ -406,9 +406,11 @@ public class WindowView {
                     if (actualLine != transitionList.get(i).getLine().toString()){
                         listModel.addElement("## Transbordo desde "+actualLine+" a " + transitionList.get(i).getLine().toString()+" ##");
                     }
-
                     listModel.addElement(transitionList.get(i).getDestination()+" ["+transitionList.get(i).getLine()+"]");
                 }else{
+                    if (actualLine != transitionList.get(i).getLine().toString()){
+                        listModel.addElement("## Transbordo desde "+actualLine+" a " + transitionList.get(i).getLine().toString()+" ##");
+                    }
                     listModel.addElement("LLegada a destino " + transitionList.get(i).getDestination() + " ["+transitionList.get(i).getLine() + "]");
                 }
 
