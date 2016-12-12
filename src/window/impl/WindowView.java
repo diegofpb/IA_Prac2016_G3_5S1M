@@ -368,10 +368,15 @@ public class WindowView {
         if ((!Objects.equals(from, NOT_SELECTABLE_OPTION) && !Objects.equals(to, NOT_SELECTABLE_OPTION) &&!Objects.equals(from, to))){
 
             itineraryPanel.removeAll();
-            Map<String, Station> copyOfMap;
-            copyOfMap = stations;
 
-            AStar a = new AStar(copyOfMap, from, to);
+            URL url = WindowView.class.getClassLoader().getResource("stations.json");
+            File file = new File(url.getPath());
+
+            Gson gson = new Gson();
+            Type type = new TypeToken<Map<String, Station>>(){}.getType();
+            stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
+
+            AStar a = new AStar(stations, from, to);
             a.solve();
 
             JLabel suggestedLabel = new JLabel("Ruta sugerida:");
