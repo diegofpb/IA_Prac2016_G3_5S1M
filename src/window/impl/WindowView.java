@@ -363,18 +363,24 @@ public class WindowView {
 
     }
 
+    private static Map<String, Station> readJson() {
+
+        Map<String, Station> stations;
+        URL url = WindowView.class.getClassLoader().getResource("window/impl/resources/stations.json");
+        File file = new File(url.getPath());
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, Station>>(){}.getType();
+
+        return gson.fromJson(new InputStreamReader(WindowView.class.getClassLoader().getResourceAsStream("window/impl/resources/stations.json")), type);
+
+    }
+
     private static void newItinerary (String from, String to) throws IOException {
 
         if ((!Objects.equals(from, NOT_SELECTABLE_OPTION) && !Objects.equals(to, NOT_SELECTABLE_OPTION) &&!Objects.equals(from, to))){
 
             itineraryPanel.removeAll();
-
-            URL url = WindowView.class.getClassLoader().getResource("stations.json");
-            File file = new File(url.getPath());
-
-            Gson gson = new Gson();
-            Type type = new TypeToken<Map<String, Station>>(){}.getType();
-            stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
+            stations = readJson();
 
             AStar a = new AStar(stations, from, to);
             a.solve();
@@ -470,13 +476,7 @@ public class WindowView {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        URL url = WindowView.class.getClassLoader().getResource("stations.json");
-        File file = new File(url.getPath());
-
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, Station>>(){}.getType();
-        stations = gson.fromJson(new InputStreamReader(new FileInputStream(file)), type);
-
+        stations = readJson();
 
         stationsList = new ArrayList<>(stations.keySet());
         stationsList.add(0,NOT_SELECTABLE_OPTION);
